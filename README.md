@@ -2,6 +2,14 @@
 
 这里放和 ILLIT 相关的个人网页与小工具，每个项目一个文件夹，互不依赖。
 
+线上地址（GitHub Pages）：
+
+- 入口：https://realruian.github.io/illit-projects/
+- 专辑图鉴：https://realruian.github.io/illit-projects/album-catalog/
+- 学习指南：https://realruian.github.io/illit-projects/study-guide/
+
+推送到 `main` 后，`.github/workflows/pages.yml` 会自动构建并测试两个项目，然后部署。入口页源码在 `site/index.html`。
+
 | 文件夹 | 项目 | 怎么看成品 | 怎么修改 |
 |---|---|---|---|
 | [album-catalog/](album-catalog/) | ILLIT 实体专辑与版本图鉴 | 双击 `album-catalog/dist/ILLIT-实体唱片收藏图鉴.html` | 改 `src/data.json` 或 `src/template.html`，再运行 `python3 src/assemble.py` |
