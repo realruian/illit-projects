@@ -44,8 +44,23 @@ p{margin:0}
 .rose{color:var(--rose)}
 .arrow{width:1em;height:1em;flex:none;transition:transform var(--dur-state) var(--ease-out)}
 
+/* 顶栏：标志 */
+.bar{border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px}
+.bar img{height:24px;width:auto;display:block}
+.bar span{font-size:var(--fs-caption);color:var(--muted);letter-spacing:.12em}
+
 /* 页头：左边大标题，右边说明 */
 header.top{padding:clamp(40px,7vw,96px) 0 clamp(32px,5vw,64px)}
+
+/* 封面墙：每张作品的第一个版本 */
+.covers{list-style:none;margin:clamp(36px,5vw,64px) auto 0;padding:0;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:clamp(8px,1.2vw,16px)}
+.covers a{display:block;text-decoration:none}
+.covers .pic{aspect-ratio:1;background:#fff;border:1px solid var(--line);overflow:hidden}
+.covers img{width:100%;height:100%;object-fit:cover;display:block;transition:transform var(--dur-reveal) var(--ease-out)}
+.covers .cap{display:flex;gap:8px;margin-top:8px;font-size:var(--fs-caption);line-height:1.4;color:var(--muted)}
+.covers .cap b{font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (hover:hover) and (pointer:fine){.covers a:hover img{transform:scale(1.04)}.covers a:hover .cap b{color:var(--rose)}}
 .hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px clamp(24px,5vw,96px);align-items:end}
 h1{font-size:var(--fs-display);line-height:1.12;letter-spacing:-.04em;text-wrap:balance}
 .lead{color:var(--muted);max-width:30em;text-wrap:pretty}
@@ -62,8 +77,9 @@ h1{font-size:var(--fs-display);line-height:1.12;letter-spacing:-.04em;text-wrap:
 .counter span{font-size:var(--fs-small);color:var(--muted);margin-inline-start:6px}
 .counter small{display:block;margin-top:6px;font-size:var(--fs-caption);color:var(--muted)}
 .ilist{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.ilist a{display:grid;grid-template-columns:4.5rem minmax(0,1.2fr) minmax(0,1fr) auto;gap:6px 24px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;transition:color var(--dur-state) ease}
+.ilist a{display:grid;grid-template-columns:4.5rem 56px minmax(0,1.2fr) minmax(0,1fr) auto;gap:6px 24px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;transition:color var(--dur-state) ease}
 .ilist .no{font-size:clamp(1.75rem,3vw,2.25rem);font-weight:300;line-height:1;letter-spacing:-.04em}
+.ilist .th{width:56px;height:56px;object-fit:cover;background:#fff;border:1px solid var(--line);display:block}
 .ilist .ttl{font-size:var(--fs-title);font-weight:600;line-height:1.3;letter-spacing:-.03em;overflow-wrap:anywhere}
 .ilist .meta{display:block;font-size:var(--fs-caption);color:var(--muted);margin-top:2px}
 .ilist .mix{font-size:var(--fs-small);color:var(--muted)}
@@ -162,8 +178,12 @@ section.notes code{font-size:.95em}
 
 @media (max-width:900px){
   .hero,.notes-in{grid-template-columns:1fr}
-  .ilist a{grid-template-columns:3rem minmax(0,1fr) auto;padding:16px 0}
-  .ilist .mix{grid-column:2/3;grid-row:2}
+  .ilist a{grid-template-columns:2.5rem 48px minmax(0,1fr) auto;padding:14px 0;column-gap:14px}
+  .ilist .th{width:48px;height:48px;grid-row:1/3}
+  .ilist .no{grid-row:1/3}
+  .ilist .mix{grid-column:3/4;grid-row:2}
+  .ilist .go{grid-row:1/3;grid-column:4}
+  .covers{grid-template-columns:repeat(4,minmax(0,1fr))}
   .ilist .go span{display:none}
 }
 @media (max-width:720px){
@@ -186,6 +206,11 @@ section.notes code{font-size:.95em}
   .counter,.rcount{text-align:start}
 }
 @media (max-width:560px){
+  .covers .cap b{display:none}
+  .ilist a{grid-template-columns:1.75rem 44px minmax(0,1fr) auto;column-gap:12px}
+  .ilist .no{font-size:1.25rem}
+  .ilist .th{width:44px;height:44px}
+  .ilist .ttl{font-size:1.125rem;overflow-wrap:break-word}
   .body{padding:10px 10px 12px;gap:8px}
   .card h3{font-size:var(--fs-body)}
   dl{grid-template-columns:minmax(0,1fr)}
@@ -196,11 +221,14 @@ section.notes code{font-size:.95em}
   @starting-style{.filters.open .more{transform:none}}
   .filters.open .more{transform:none}
   .arrow{transition:none}
+  .covers img{transition:none}
 }
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-arrow" viewBox="0 0 16 16"><path d="M4 12 12 4M5.5 4H12v6.5" fill="none" stroke="currentColor" stroke-width="1.25"/></symbol></svg>
+
+<div class="bar"><div class="wrap"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAACnCAYAAADnu65nAAAFmUlEQVR42u3azYuVVRzA8d95znPnOoxOhQ0oEYIVmuYEBqYS1LJNJeW2hmhThLVpFVmaLdq0aZfRRtpZYJsgWhQVRS18Saw20oRC0UC3MV/mOs99njbathYx3Q6fz19w3u753nO5qe7334mIeyOii4I0TZOmp6cXfjhz5pH169dfGJdx/Tg/f/PWbduOLS0t3ZhzLmvNh8O86777jnz5+eevj9O4Hp+be+bdI0f21f3+qKT17iLSaDhc+uTTTx974P77fxqXcX39zTfTO3fu/CD3ejMppeLO+KN79773/tGjL0eBFhYWpjZv2fLBb4PBurqui9u7rbOzx06fPPliSqnE7Ys6Im6LiK1RpoWIyGO45ndFxA2FrvktYzimdRFxZ6HrfTUi+mM2pnztTpkpdM1vjXJVEbElItYXOr/jUfjmjQqe38i4VlxrTCt+ljpn3Hmyd/auCgBA0AEAQQcABB0AEHQAEHQAQNABAEEHAAQdAAQdABB0AEDQAQBBBwBBBwAEHQAQdABA0AFA0AEAQQcABB0AEHQAEHQAQNABAEEHAAQdAAQdABB0AEDQAQBBBwBBBwAEHQAQdABA0AFA0AEAQQcABB0AEHQAEHQAQNABAEEHAAQdAAQdABB0AEDQAQBBBwAEHQAEHQAQdABA0AEAQQcAQQcAxkjdtm2vyJm1bbRtO2GL4T/QdRNt20ZKqbxXUFXuO2hycnIppdQV+4KtqlGJZ/KvoOecf4mIn8u7T7rIOf8aEa3bFVb263SqqnM552Fxl+do1A0Ggzhx4sSmiCgufIPBYKppml6J0UspxeXLl286fvz4HanMqrf16ZMnn4qI4l7pXUTkqmpnZmYuuF9h5dw9O3vhuzNnHkgplfeUTal7af/+Z7dv3/5t5FziSzbVdd3LORc3sTwxEfPz8w/ds2PHgyXuW0Rcqjdt2vSHKwj4t6xatarbvHnz76XOb+3atcOImCgxeqVLKVU5536h02trWwzwz41Go3QtDhbj/xn1Yo+mf7kDQAEEHQAEHQAQdABA0AEAQQcAQQcABB0AEHQAQNABQNABAEEHAAQdABB0ABB0AEDQAQBBBwAEHQAEHQAQdABA0AEAQQcAQQcABB0AEHQAQNABQNABAEEHAAQdABB0ABB0AEDQAQBBBwAEHQAEHQAQdABA0AEAQQcAQQcABB0AEHQAQNABQNABAEEHAAQdABB0AEDQAUDQAQBBBwAEHQAQdAAoSW0JAP65nPMoIqIZDsuc38REpJSKnFvbttEuL5d6NKfqVw4efDIiNpa4cf1+/+Lz+/a9uWbNmiuuIVgZ58+fn3zr8OHnqqpaHYWFoWvbOHv27PSu3bvfqHLOhW1dt9w0/VOnTj3RNM3qVODeTU1NfT+7bduHEZEL/OhdrV89cODpiNhR5M2S0pUn5+beFnRYOT+dOzf52qFDr0TEZInze3jPniMff/TRXIlzW1xcjI233/7Qb4PB6rou6wfc0fJybNiw4asvPvvshVI/e3Xd718scWJN08T09PRiVVWdKxZW8FLJuYuUFnOvN1naK68ZDqOu66bUvVteXl4TEanU+XVd1yv5s+dPcQBcD545CjoAIOgAgKADgKADAIIOAAg6ACDoAICgA4CgAwCCDgAIOgAg6AAg6ACAoAMAgg4ACDoACDoAIOgAgKADAIIOAIIOAAg6ACDoAICgA4CgAwCCDgAIOgAg6AAg6ACAoAMAgg4ACDoACDoAIOgAgKADAIIOAIIOAAg6ACDoAICgA4CgAwCCDgAIOgAg6AAg6ACAoAMAgg4ACDoAIOgAIOgAwNgEPfnCYlz/omRMzpIz7kzZu5VXR8SViLhU6PwuRkQ3ZmPqro2rV+hFMBzDcQ2vnfO2wDUfx3ldP+NThZ7xpYKbcH3vLo/h3Wnv/saf+LoXnvxLEe8AAAAASUVORK5CYII=" alt="ILLIT" width="72" height="24"><span class="num" id="span"></span></div></div>
 
 <header class="top"><div class="wrap hero">
   <h1>ILLIT 实体专辑<br>与<span class="rose">版本图鉴</span></h1>
@@ -209,7 +237,8 @@ section.notes code{font-size:.95em}
     <p class="asof">资料截至 <span id="asof" class="num"></span></p>
     <a class="text-link" href="#notes">统计口径与说明<svg class="arrow" aria-hidden="true" style="transform:rotate(135deg)"><use href="#i-arrow"/></svg></a>
   </div>
-</div></header>
+</div>
+<ul class="covers wrap" id="covers" aria-label="作品封面"></ul></header>
 
 <section class="index" aria-labelledby="index-h"><div class="wrap">
   <div class="ihead">
@@ -302,11 +331,23 @@ function renderStats(){
   box.appendChild(el('b','num',String(c.rel)));box.appendChild(el('span',null,'个已发行版本'));
   box.appendChild(el('small','num',DATA.albums.length+' 张作品 · '+c.up+' 个预售 · '+c.own+' 个已拥有'));
 }
+function cover(a){return a.versions[0].img}
+function renderCovers(){
+  var ul=document.getElementById('covers');
+  var y=DATA.albums.map(function(a){return a.date.slice(0,4)});
+  document.getElementById('span').textContent=DATA.albums.length+' RELEASES · '+y[0]+'–'+y[y.length-1];
+  DATA.albums.forEach(function(a,i){
+    var li=el('li'),l=el('a'),p=el('div','pic'),im=el('img');l.href='#'+a.id;
+    im.src=cover(a);im.alt=a.title+' 封面';im.decoding='async';p.appendChild(im);l.appendChild(p);
+    var c=el('span','cap');c.appendChild(el('span','num',pad(i+1)));c.appendChild(el('b',null,a.title));l.appendChild(c);
+    li.appendChild(l);ul.appendChild(li)});
+}
 function renderOverview(){
   var ol=document.getElementById('overview');
   DATA.albums.forEach(function(a,i){
     var li=el('li'),l=el('a');l.href='#'+a.id;
     l.appendChild(el('span','no num',pad(i+1)));
+    var th=el('img','th');th.src=cover(a);th.alt='';th.loading='lazy';th.decoding='async';l.appendChild(th);
     var t=el('span');t.appendChild(el('span','ttl',a.title));
     t.appendChild(el('span','meta num',fmt(a.date)+' · '+a.kind));l.appendChild(t);
     var parts=[];GROUPS.forEach(function(g){var n=a.versions.filter(function(v){return v.group===g[0]&&v.status!=='upcoming'}).length;if(n)parts.push(g[2]+' '+n)});
@@ -400,7 +441,7 @@ function render(){
   document.getElementById('status').textContent='显示 '+albums+' 张作品 · '+n+' 个版本';
   document.getElementById('empty').style.display=n?'none':'block';
 }
-buildFilters();renderStats();renderOverview();render();
+buildFilters();renderStats();renderCovers();renderOverview();render();
 /* 筛选栏是吸顶的：把它的高度写进 --sticky-h，锚点跳转就不会被它挡住 */
 var fbar=document.getElementById('filters');
 function syncSticky(){document.documentElement.style.setProperty('--sticky-h',(getComputedStyle(fbar).position==='sticky'?fbar.offsetHeight:0)+'px')}
