@@ -1,0 +1,6 @@
+.DS_Store
+node_modules/
+*.zip
+
+# 专辑图鉴的官方原图（约 129 MB），只用于重新裁图，留在本机
+album-catalog/raw/

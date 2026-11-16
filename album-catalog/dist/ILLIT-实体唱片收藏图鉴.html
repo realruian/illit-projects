@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ILLIT 实体专辑图鉴</title>
+<style>
+:root{
+  --bg:#f7f5fb;--paper:#fff;--ink:#1f1a2e;--muted:#625a74;--line:#e4def0;--accent:#5b2fb8;--accent-soft:#efe8ff;
+  --c-standard:#4a4658;--c-standard-bg:#eeedf2;
+  --c-member:#1f4f8f;--c-member-bg:#e1ecfb;
+  --c-theme:#7a3b00;--c-theme-bg:#fdeedd;
+  --c-weverse:#13614f;--c-weverse-bg:#ddf3ec;
+  --c-collab:#8c1f4c;--c-collab-bg:#fde4ee;
+  --c-special:#5a3a8a;--c-special-bg:#ece4fa;
+  --owned:#0f6b3a;--owned-bg:#dcf4e6;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15121c;--paper:#1f1b29;--ink:#efeaf8;--muted:#b3aac4;--line:#363047;--accent:#c7b0ff;--accent-soft:#2d2542;
+  --c-standard:#d6d3df;--c-standard-bg:#2e2b38;--c-member:#b7d3ff;--c-member-bg:#1d2d45;--c-theme:#ffd2a6;--c-theme-bg:#3d2a17;
+  --c-weverse:#a9ecd9;--c-weverse-bg:#123a31;--c-collab:#ffbfd7;--c-collab-bg:#43192b;--c-special:#dccbff;--c-special-bg:#2e2343;
+  --owned:#a6f0c6;--owned-bg:#143d27;}}
+:root[data-theme="dark"]{--bg:#15121c;--paper:#1f1b29;--ink:#efeaf8;--muted:#b3aac4;--line:#363047;--accent:#c7b0ff;--accent-soft:#2d2542;
+  --c-standard:#d6d3df;--c-standard-bg:#2e2b38;--c-member:#b7d3ff;--c-member-bg:#1d2d45;--c-theme:#ffd2a6;--c-theme-bg:#3d2a17;
+  --c-weverse:#a9ecd9;--c-weverse-bg:#123a31;--c-collab:#ffbfd7;--c-collab-bg:#43192b;--c-special:#dccbff;--c-special-bg:#2e2343;
+  --owned:#a6f0c6;--owned-bg:#143d27;}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+a{color:var(--accent);text-underline-offset:.2em}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 16px}
+header.top{padding:36px 0 24px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+h1{font-size:clamp(30px,6vw,52px);line-height:1.05;margin:8px 0 10px;letter-spacing:-.02em}
+.lead{color:var(--muted);margin:0 0 18px;max-width:46em}
+.stats{display:flex;flex-wrap:wrap;gap:10px}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:8px 14px;min-width:96px}
+.stat b{display:block;font-size:22px;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:12px;color:var(--muted)}
+.overview{margin:22px 0 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.overview table{border-collapse:collapse;width:100%;min-width:640px;background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px}
+.overview th,.overview td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.overview td.n{text-align:center;font-variant-numeric:tabular-nums}
+.overview th{font-size:12px;color:var(--muted);font-weight:700;background:var(--accent-soft)}
+.overview tr:last-child td{border-bottom:0}
+.overview a{text-decoration:none;font-weight:650}
+.filters{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 0}
+.frow{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.frow+.frow{margin-top:8px}
+.flabel{font-size:12px;font-weight:700;color:var(--muted);min-width:4.5em}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer;min-height:34px;line-height:1.2}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] .chip[aria-pressed="true"]{color:#1a1426}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .chip[aria-pressed="true"]{color:#1a1426}}
+select{height:36px;border:1px solid var(--line);border-radius:10px;background:var(--paper);padding:0 8px;max-width:100%}
+.status{font-size:13px;color:var(--muted);margin-left:auto}
+.ftoggle{display:none}
+@media (max-width:720px){
+  .filters .more{display:none}
+  .filters.open .more{display:flex}
+  .ftoggle{display:inline-flex;flex:none}
+  .status{margin-left:0;width:100%}
+  .flabel{min-width:auto;width:100%}
+  .filters{padding:8px 0}
+  .filters.open{position:static}
+  .frow:first-child{flex-wrap:nowrap;gap:8px}
+  .frow:first-child .flabel{display:none}
+  #fGroup{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex:1;min-width:0}
+  #fGroup::-webkit-scrollbar{display:none}
+  #fGroup .chip{flex:none}
+}
+.release{padding:30px 0 10px}
+.rhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:6px}
+.rhead time{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.rhead h2{margin:0;font-size:clamp(22px,4vw,32px);letter-spacing:-.01em;overflow-wrap:anywhere}
+.rkind{font-size:12px;font-weight:700;border-radius:6px;padding:2px 8px;background:var(--accent-soft);color:var(--accent)}
+.rnote{color:var(--muted);font-size:13.5px;margin:4px 0 16px;max-width:60em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+@media (max-width:560px){.grid{grid-template-columns:1fr 1fr;gap:10px}}
+@media (max-width:360px){.grid{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.card.is-owned{border-color:var(--owned);box-shadow:0 0 0 1px var(--owned) inset}
+.art{position:relative;aspect-ratio:4/3;background:#f1eef6;display:grid;place-items:center;overflow:hidden}
+:root[data-theme="dark"] .art{background:#efedf3}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .art{background:#efedf3}}
+.art img{position:absolute;inset:6px;width:calc(100% - 12px);height:calc(100% - 12px);object-fit:contain;display:block}
+.ph{display:none;padding:12px;text-align:center;font-size:12px;color:#5d5570}
+.art.err img{display:none}.art.err .ph{display:block}
+.ownedTag{position:absolute;top:8px;left:8px;background:var(--owned-bg);color:var(--owned);font-size:12px;font-weight:800;border-radius:999px;padding:3px 9px;border:1px solid var(--owned)}
+.soonTag{position:absolute;top:8px;right:8px;background:#fff4c2;color:#6b4d00;font-size:12px;font-weight:800;border-radius:999px;padding:3px 9px;border:1px solid #e0c35a}
+.body{padding:11px 12px 12px;display:flex;flex-direction:column;gap:7px;flex:1}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:11.5px;font-weight:700;border-radius:6px;padding:2px 7px;line-height:1.4}
+.g-standard{background:var(--c-standard-bg);color:var(--c-standard)}
+.g-member{background:var(--c-member-bg);color:var(--c-member)}
+.g-theme{background:var(--c-theme-bg);color:var(--c-theme)}
+.g-weverse{background:var(--c-weverse-bg);color:var(--c-weverse)}
+.g-collab{background:var(--c-collab-bg);color:var(--c-collab)}
+.g-special{background:var(--c-special-bg);color:var(--c-special)}
+.tag.mem{background:transparent;border:1px solid var(--line);color:var(--ink);font-weight:600}
+.tag.rand{background:transparent;border:1px dashed var(--muted);color:var(--muted)}
+.card h3{margin:0;font-size:15.5px;line-height:1.3;overflow-wrap:anywhere}
+.has{display:flex;flex-wrap:wrap;gap:4px}
+.has span{font-size:11.5px;border-radius:6px;padding:1px 6px;border:1px solid var(--line)}
+.has .y{background:var(--accent-soft);border-color:transparent;color:var(--ink)}
+.has .n{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px}
+dl{margin:0;display:grid;grid-template-columns:3.6em 1fr;font-size:12.5px;border-top:1px solid var(--line)}
+dt,dd{margin:0;padding:4px 0;border-bottom:1px solid var(--line)}
+dt{color:var(--muted);font-weight:700}
+dd{overflow-wrap:anywhere}
+.extra{font-size:12.5px;color:var(--muted);margin:0}
+.foot{margin-top:auto;display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12px;align-items:center;padding-top:4px}
+.foot label{margin-left:auto;display:inline-flex;gap:5px;align-items:center;cursor:pointer;color:var(--muted)}
+.empty{padding:40px 0;color:var(--muted);text-align:center;display:none}
+section.notes{border-top:1px solid var(--line);margin-top:30px;padding:24px 0 50px;font-size:14px}
+section.notes h2{font-size:20px;margin:0 0 8px}
+section.notes h3{font-size:15px;margin:18px 0 6px}
+section.notes ul{padding-left:1.2em;margin:4px 0}
+section.notes li{margin:3px 0}
+.muted{color:var(--muted)}
+@media (max-width:560px){
+  .body{padding:9px 9px 10px}
+  .card h3{font-size:14px}
+  dl{grid-template-columns:1fr;font-size:12px}
+  dt{border-bottom:0;padding-bottom:0}
+  .foot label{margin-left:0}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">ILLIT · 实体发行收藏图鉴 · 资料截至 <span id="asof"></span></div>
+  <h1>ILLIT 实体专辑与版本图鉴</h1>
+  <p class="lead">按发行时间收录 ILLIT 的韩语迷你专辑、韩语单曲专辑和日本实体单曲，并列出每张作品的基础包装版本和内含物。纯数字单曲、套装、店铺特典、随机小卡款式不计为独立版本。</p>
+  <div class="stats" id="stats"></div>
+  <div class="overview" id="overview"></div>
+</div></header>
+
+<nav class="filters" id="filters" aria-label="筛选"><div class="wrap">
+  <div class="frow">
+    <span class="flabel">版本类型</span>
+    <div class="chips" id="fGroup"></div>
+    <button class="chip ftoggle" id="ftoggle" aria-expanded="false" type="button">更多筛选</button>
+  </div>
+  <div class="frow more">
+    <span class="flabel">成员</span>
+    <div class="chips" id="fMember"></div>
+  </div>
+  <div class="frow more">
+    <span class="flabel">作品</span>
+    <select id="fAlbum" aria-label="按作品筛选"></select>
+    <select id="fKind" aria-label="按作品类型筛选"></select>
+    <button class="chip" id="fOwned" aria-pressed="false" type="button">只看已拥有</button>
+    <button class="chip" id="fReset" type="button">重置</button>
+    <span class="status" id="status" role="status"></span>
+  </div>
+</div></nav>
+
+<main class="wrap" id="main"></main>
+<p class="empty wrap" id="empty">没有符合条件的版本，换个筛选条件试试。</p>
+
+<section class="notes wrap" id="notes">
+  <h2>统计口径与说明</h2>
+  <h3>收录范围</h3>
+  <ul>
+    <li>已发行实体作品：韩语迷你专辑 5 张、韩语单曲专辑 1 张、日本实体单曲 2 张。韩语作品按韩国发行日排序，日本单曲按实体 CD 发售日排序。</li>
+    <li>不计入：日本纯数字单曲《Almond Chocolate》(2025-02-14)、《Sunday Morning》(2026-01-13)、《Bubee》(2026-04-06)、《Swingin' Magic》(2026-09-21)。</li>
+    <li>《BREAK EVEN》Little Mimi Ver. 已开放预售，12 月 30 日才发行，标为「预售中」，不计入已发行总数。</li>
+  </ul>
+  <h3>版本怎么算</h3>
+  <ul>
+    <li>封面或包装不同、能单独购买的基础款各算 1 个版本，成员封面和小分队封面逐一计数。</li>
+    <li>不另算：随机小卡款式、店铺特典或赠卡、签名版、抽奖版、多款套装（Set）、首批随机附赠的拍立得。</li>
+    <li>Weverse Albums 版是实体卡包，没有 CD，靠 QR 卡在 App 内收听。各期配置不同，以卡片里的内容为准。</li>
+    <li>同叫 GLLIT 版，配置不一定相同：《I’LL LIKE YOU》的 GLLIT 版是三款相机盒主题包装，不分成员；《bomb》和《BREAK EVEN》的 GLLIT 版才有成员封面。</li>
+    <li>「随机」指同一版本内要抽的内容，例如「A 随机 5 选 1」。「固定」或「随版本」的内容由所买的版本决定。</li>
+  </ul>
+  <h3>图片</h3>
+  <ul>
+    <li>图片来自 ILLIT 日本官网、Weverse Shop、环球音乐日本和 BELIFT LAB 的公开商品图或概念图，每张卡片都注明来源页。版权归 BELIFT LAB、HYBE 及相关权利人。</li>
+    <li>同一文件夹里的 <code>images/</code> 是按版本裁出的缩略图，只供个人离线查阅，请勿转发或再发布。删掉这个文件夹后，卡片会显示占位说明，可点来源链接联网查看。</li>
+  </ul>
+</section>
+
+<script type="application/json" id="data">{"asof": "2026-11-16", "albums": [{"id": "real", "title": "SUPER REAL ME", "date": "2024-03-25", "kind": "韩语迷你专辑", "note": "首张迷你专辑。两种大盒 CD 版各有不同的写真和纸磁贴。", "versions": [{"id": "real-0", "name": "SUPER ME Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "72 页", "card": "A、B 各随机 1 张（各 5 选 1）", "poster": "1 张，随版本", "extra": "另有贴纸、纸磁贴及随机纸挂饰（5 选 1）。首批仅 180 份随机附拍立得。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/22975", "img": "images/real-0.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/112181f399e9", "status": "released"}, {"id": "real-1", "name": "REAL ME Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "76 页", "card": "A、B 各随机 1 张（各 5 选 1）", "poster": "1 张，随版本", "extra": "另有贴纸、纸磁贴及随机纸挂饰（5 选 1）。首批仅 180 份随机附拍立得。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/22975", "img": "images/real-1.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/112181f399e9", "status": "released"}, {"id": "real-2", "name": "Weverse Albums ver.", "kind": "Weverse Albums", "group": "weverse", "cd": "无 · QR 音源", "book": "无", "card": "A、B 各随机 1 张（各 5 选 1）＋固定 MV 5 张套卡", "poster": "无", "extra": "曲目卡。音源 QR 卡图样随机 2 选 1。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/23810", "img": "images/real-2.jpg", "imgFrom": "Weverse Shop", "imgPage": "https://shop.weverse.io/ja/shop/JPY/artists/120/sales/23745", "status": "released"}]}, {"id": "like", "title": "I’LL LIKE YOU", "date": "2024-10-21", "kind": "韩语迷你专辑", "note": "GLLIT 是 TO / WITH / BETWEEN 三种相机盒主题；相机外形是包装设计。另有独立的 QR 版。", "versions": [{"id": "like-0", "name": "TO Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "72 页", "card": "A、B 各随机 1 张（各 5 选 1）", "poster": "1 张，随版本", "extra": "贴纸、证件照。首批仅 400 份随机附拍立得。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/29768", "img": "images/like-0.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/150180c4987b", "status": "released"}, {"id": "like-1", "name": "WITH Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "72 页", "card": "A、B 各随机 1 张（各 5 选 1）", "poster": "1 张，随版本", "extra": "贴纸、证件照。首批仅 400 份随机附拍立得。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/29768", "img": "images/like-1.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/150180c4987b", "status": "released"}, {"id": "like-2", "name": "BETWEEN Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "64 页", "card": "A、B 各随机 1 张（各 5 选 1）", "poster": "1 张，随版本", "extra": "贴纸、证件照。首批仅 400 份随机附拍立得。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/29768", "img": "images/like-2.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/150180c4987b", "status": "released"}, {"id": "like-3", "name": "TO · GLLIT ver.", "kind": "GLLIT 主题版", "group": "theme", "cd": "迷你 CD-R", "book": "20 张写真组（40 页）", "card": "Q&A 小卡与普通小卡各随机 1 张（各 5 选 1）", "poster": "无", "extra": "附主题钥匙扣、歌词纸和贴纸。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/29962", "img": "images/like-3.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/150180c4987b", "status": "released"}, {"id": "like-4", "name": "WITH · GLLIT ver.", "kind": "GLLIT 主题版", "group": "theme", "cd": "迷你 CD-R", "book": "20 张写真组（40 页）", "card": "Q&A 小卡与普通小卡各随机 1 张（各 5 选 1）", "poster": "无", "extra": "附主题钥匙扣、歌词纸和贴纸。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/29962", "img": "images/like-4.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/150180c4987b", "status": "released"}, {"id": "like-5", "name": "BETWEEN · GLLIT ver.", "kind": "GLLIT 主题版", "group": "theme", "cd": "迷你 CD-R", "book": "20 张写真组（40 页）", "card": "Q&A 小卡与普通小卡各随机 1 张（各 5 选 1）", "poster": "无", "extra": "附主题钥匙扣、歌词纸和贴纸。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/29962", "img": "images/like-5.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/150180c4987b", "status": "released"}, {"id": "like-6", "name": "Weverse Albums ver.", "kind": "Weverse Albums", "group": "weverse", "cd": "无 · QR 音源", "book": "无", "card": "A、B 各随机 1 张（各 5 选 1）＋固定 5 张套卡", "poster": "无", "extra": "另有音源 QR 卡和曲目卡。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/29976", "img": "images/like-6.jpg", "imgFrom": "Weverse Shop", "imgPage": "https://shop.weverse.io/en/shop/USD/artists/120/sales/29976", "status": "released"}]}, {"id": "bomb", "title": "bomb", "date": "2025-06-16", "kind": "韩语迷你专辑", "note": "GLLIT ver. 为五款成员封面：红 YUNAH、黄 MINJU、紫 MOKA、粉 WONHEE、蓝 IROHA（依 Weverse Shop 套装图书脊名）。官方包装图标注小卡 A 为「5versions / 1ea」即随成员版本固定，小卡 B 为 5 选 1 随机；部分日本商品文字写作随机，以包装图为准。", "versions": [{"id": "bomb-0", "name": "MAGIC BOMB Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "80 页 · 光栅封面", "card": "A、B 各随机 1 张（各 5 选 1）", "poster": "1 张，随版本", "extra": "贴纸 4 款。首批仅 400 份随机附拍立得。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/notices/8148", "img": "images/bomb-0.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/8e89acc58735", "status": "released"}, {"id": "bomb-1", "name": "PINK BOMB Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "80 页 · 光栅封面", "card": "A、B 各随机 1 张（各 5 选 1）", "poster": "1 张，随版本", "extra": "贴纸 4 款。首批仅 400 份随机附拍立得。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/notices/8148", "img": "images/bomb-1.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/8e89acc58735", "status": "released"}, {"id": "bomb-2", "name": "STAR BOMB Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "80 页 · 光栅封面", "card": "A、B 各随机 1 张（各 5 选 1）", "poster": "1 张，随版本", "extra": "贴纸 4 款。首批仅 400 份随机附拍立得。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/notices/8148", "img": "images/bomb-2.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/8e89acc58735", "status": "released"}, {"id": "bomb-3", "name": "GLLIT ver. · YUNAH", "kind": "成员版", "group": "member", "cd": "CD-R", "book": "46 页 · 随成员版本", "card": "A 固定随封面成员；B 随机 5 选 1", "poster": "1 张，随版本", "extra": "立体弹出页、书签、贴纸。", "members": ["YUNAH"], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/39323", "img": "images/bomb-3.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/8e89acc58735", "status": "released"}, {"id": "bomb-4", "name": "GLLIT ver. · MINJU", "kind": "成员版", "group": "member", "cd": "CD-R", "book": "46 页 · 随成员版本", "card": "A 固定随封面成员；B 随机 5 选 1", "poster": "1 张，随版本", "extra": "立体弹出页、书签、贴纸。", "members": ["MINJU"], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/39323", "img": "images/bomb-4.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/8e89acc58735", "status": "released"}, {"id": "bomb-5", "name": "GLLIT ver. · MOKA", "kind": "成员版", "group": "member", "cd": "CD-R", "book": "46 页 · 随成员版本", "card": "A 固定随封面成员；B 随机 5 选 1", "poster": "1 张，随版本", "extra": "立体弹出页、书签、贴纸。", "members": ["MOKA"], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/39323", "img": "images/bomb-5.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/8e89acc58735", "status": "released"}, {"id": "bomb-6", "name": "GLLIT ver. · WONHEE", "kind": "成员版", "group": "member", "cd": "CD-R", "book": "46 页 · 随成员版本", "card": "A 固定随封面成员；B 随机 5 选 1", "poster": "1 张，随版本", "extra": "立体弹出页、书签、贴纸。", "members": ["WONHEE"], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/39323", "img": "images/bomb-6.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/8e89acc58735", "status": "released"}, {"id": "bomb-7", "name": "GLLIT ver. · IROHA", "kind": "成员版", "group": "member", "cd": "CD-R", "book": "46 页 · 随成员版本", "card": "A 固定随封面成员；B 随机 5 选 1", "poster": "1 张，随版本", "extra": "立体弹出页、书签、贴纸。", "members": ["IROHA"], "owned": true, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/39323", "img": "images/bomb-7.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/8e89acc58735", "status": "released"}, {"id": "bomb-8", "name": "Weverse Albums ver.", "kind": "Weverse Albums", "group": "weverse", "cd": "无 · QR 音源", "book": "无", "card": "A、B 各随机 1 张（各 5 选 1）＋固定 C 套卡 5 张", "poster": "无", "extra": "音源 QR 卡、曲目卡。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/39388", "img": "images/bomb-8.jpg", "imgFrom": "Weverse Shop", "imgPage": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/39388", "status": "released"}, {"id": "bomb-9", "name": "Merch ver. · 耳机限定版", "kind": "特殊版", "group": "special", "cd": "迷你 CD-R", "book": "无", "card": "固定 5 张套卡", "poster": "无", "extra": "随盒附有线入耳式耳机、3 种耳塞尺寸、歌词纸、说明书和贴纸。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/notices/8325", "img": "images/bomb-9.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/495175517ed0", "status": "released"}]}, {"id": "toki", "title": "時よ止まれ", "date": "2025-09-03", "kind": "日本实体单曲", "note": "音源于 9 月 1 日上线，实体 CD 于 9 月 3 日发行。", "versions": [{"id": "toki-0", "name": "Care Bears™ 制造限定盘", "kind": "联名版", "group": "collab", "cd": "CD", "book": "44 页", "card": "固定单人卡 5 张", "poster": "无", "extra": "另有 5 张成员档案、照片贴和装饰贴。", "members": [], "owned": false, "source": "https://www.universal-music.co.jp/illit/products/upch-7763/", "img": "images/toki-0.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/181adfde7fbd", "status": "released"}, {"id": "toki-1", "name": "初回限定盘", "kind": "初回限定盘", "group": "standard", "cd": "CD", "book": "44 页", "card": "单人卡、透明卡、方卡各随机 1 张（各 5 选 1）", "poster": "无", "extra": "", "members": [], "owned": false, "source": "https://www.universal-music.co.jp/illit/products/upch-7764/", "img": "images/toki-1.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/181adfde7fbd", "status": "released"}, {"id": "toki-2", "name": "通常盘", "kind": "日单通常盘", "group": "standard", "cd": "CD", "book": "8 页小册", "card": "单人卡随机 5 选 1", "poster": "无", "extra": "2 张 Logo 贴纸。", "members": [], "owned": false, "source": "https://www.universal-music.co.jp/illit/products/upch-6044/", "img": "images/toki-2.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/181adfde7fbd", "status": "released"}, {"id": "toki-3", "name": "小分队 A · YUNAH / MINJU / MOKA", "kind": "小分队版", "group": "member", "cd": "CD", "book": "16 页小册", "card": "单人卡随机 3 选 1；小分队卡随机 2 选 1", "poster": "无", "extra": "", "members": ["YUNAH", "MINJU", "MOKA"], "owned": false, "source": "https://www.universal-music.co.jp/illit/products/upch-7765/", "img": "images/toki-3.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/181adfde7fbd", "status": "released"}, {"id": "toki-4", "name": "小分队 B · WONHEE / IROHA", "kind": "小分队版", "group": "member", "cd": "CD", "book": "16 页小册", "card": "单人卡随机 2 选 1；小分队卡随机 2 选 1", "poster": "无", "extra": "", "members": ["WONHEE", "IROHA"], "owned": false, "source": "https://www.universal-music.co.jp/illit/products/upch-7766/", "img": "images/toki-4.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/181adfde7fbd", "status": "released"}, {"id": "toki-5", "name": "7net Shopping 限定盘", "kind": "特殊版", "group": "special", "cd": "CD", "book": "8 页小册", "card": "小分队卡随机 10 选 1", "poster": "无", "extra": "7net 另外发放的可选成员赠卡属于店铺特典。", "members": [], "owned": false, "source": "https://illit-official.jp/news/f6a1de88accf", "img": "images/toki-5.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/181adfde7fbd", "status": "released"}]}, {"id": "cute", "title": "NOT CUTE ANYMORE", "date": "2025-11-24", "kind": "韩语单曲专辑", "note": "Little Mimi 是随机娃娃款；Ashley Williams 收纳包有两种具名商品可选。", "versions": [{"id": "cute-0", "name": "NOT CUTE Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "90 页＋16 页迷你册", "card": "A、B 各随机 1 张（各 5 选 1）", "poster": "1 张，随版本", "extra": "明信片、5 张证件照、透明袋、书签、贴纸。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/47348", "img": "images/cute-0.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/571b0c4f8ea6", "status": "released"}, {"id": "cute-1", "name": "NOT MY NAME Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "小分队册 48＋32 页、团体册 16 页；另有 16 页迷你册", "card": "A、B 各随机 1 张（各 5 选 1）", "poster": "1 张，随版本", "extra": "明信片、5 张证件照、透明袋、书签、贴纸。", "members": [], "owned": false, "source": "https://shop.weverse.io/en/shop/KRW/artists/120/sales/47347", "img": "images/cute-1.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/571b0c4f8ea6", "status": "released"}, {"id": "cute-2", "name": "Weverse Albums ver.", "kind": "Weverse Albums", "group": "weverse", "cd": "无 · QR 音源", "book": "无", "card": "A、B 各随机 1 张（各 5 选 1）＋固定小分队卡 2 张", "poster": "无", "extra": "音源 QR 卡、曲目卡。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/47201", "img": "images/cute-2.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/571b0c4f8ea6", "status": "released"}, {"id": "cute-3", "name": "Little Mimi ver. · 娃娃限定版", "kind": "联名版", "group": "collab", "cd": "迷你 CD-R", "book": "无", "card": "固定 5 张套卡", "poster": "无", "extra": "随机附 1 个娃娃（6 选 1），另有钥匙链和歌词盘套。", "members": [], "owned": false, "source": "https://weverse.io/illit/notice/31168?hl=ko", "img": "images/cute-3.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/571b0c4f8ea6", "status": "released"}, {"id": "cute-4", "name": "ILLIT × Ashley Williams · I HEART ME", "kind": "联名版", "group": "collab", "cd": "迷你 CD-R", "book": "无", "card": "A 固定 5 张套卡；B 随机 5 选 1", "poster": "无", "extra": "联名多功能收纳包、歌词纸。", "members": [], "owned": false, "source": "https://weverse.io/illit/notice/31166?hl=ko", "img": "images/cute-4.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/571b0c4f8ea6", "status": "released"}, {"id": "cute-5", "name": "ILLIT × Ashley Williams · COLLAGE", "kind": "联名版", "group": "collab", "cd": "迷你 CD-R", "book": "无", "card": "A 固定 5 张套卡；B 随机 5 选 1", "poster": "无", "extra": "联名多功能收纳包、歌词纸。", "members": [], "owned": false, "source": "https://weverse.io/illit/notice/31166?hl=ko", "img": "images/cute-5.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/571b0c4f8ea6", "status": "released"}]}, {"id": "mami", "title": "MAMIHLAPINATAPAI", "date": "2026-04-30", "kind": "韩语迷你专辑", "note": "PAW PAW ver. 五款成员包装：橙色狗粮 YUNAH、蓝色鸭粮 MINJU、青色猫粮 MOKA、粉色豚鼠粮 WONHEE、黄绿蜥蜴粮 IROHA。YUNAH、MINJU、MOKA、IROHA 依 BELIFT LAB 成员概念片中的动物对应，WONHEE 由排除法推定。陶瓷摆件版附迷你 CD-R。", "versions": [{"id": "mami-0", "name": "GRWM Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "64 页骑马订＋22 页折页", "card": "A、B 各随机 1 张（各 5 选 1）", "poster": "团体 1 张＋小分队 2 张", "extra": "文件夹式包装、明信片、贴纸。", "members": [], "owned": false, "source": "https://weverse.io/illit/notice/34553?hl=ko", "img": "images/mami-0.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/eb4141edb9ba", "status": "released"}, {"id": "mami-1", "name": "IT’S ME Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "64 页骑马订＋22 页折页", "card": "A、B 各随机 1 张（各 5 选 1）", "poster": "团体 1 张＋小分队 2 张", "extra": "文件夹式包装、明信片、贴纸。", "members": [], "owned": false, "source": "https://weverse.io/illit/notice/34553?hl=ko", "img": "images/mami-1.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/eb4141edb9ba", "status": "released"}, {"id": "mami-2", "name": "FREE RIDER Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "64 页骑马订＋22 页折页", "card": "A、B 各随机 1 张（各 5 选 1）", "poster": "团体 1 张＋小分队 2 张", "extra": "文件夹式包装、明信片、贴纸。", "members": [], "owned": false, "source": "https://weverse.io/illit/notice/34553?hl=ko", "img": "images/mami-2.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/eb4141edb9ba", "status": "released"}, {"id": "mami-3", "name": "PAW PAW ver. · YUNAH", "kind": "成员版", "group": "member", "cd": "迷你 CD-R", "book": "44 页＋20 页手风琴迷你册", "card": "A 固定随封面成员；B 随机 5 选 1", "poster": "1 张，随版本", "extra": "另有该版本歌词册、明信片及贴纸册。", "members": ["YUNAH"], "owned": false, "source": "https://weverse.io/illit/notice/34554?hl=ko", "img": "images/mami-3.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/eb4141edb9ba", "status": "released"}, {"id": "mami-4", "name": "PAW PAW ver. · MINJU", "kind": "成员版", "group": "member", "cd": "迷你 CD-R", "book": "44 页＋20 页手风琴迷你册", "card": "A 固定随封面成员；B 随机 5 选 1", "poster": "1 张，随版本", "extra": "另有该版本歌词册、明信片及贴纸册。", "members": ["MINJU"], "owned": false, "source": "https://weverse.io/illit/notice/34554?hl=ko", "img": "images/mami-4.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/eb4141edb9ba", "status": "released"}, {"id": "mami-5", "name": "PAW PAW ver. · MOKA", "kind": "成员版", "group": "member", "cd": "迷你 CD-R", "book": "44 页＋20 页手风琴迷你册", "card": "A 固定随封面成员；B 随机 5 选 1", "poster": "1 张，随版本", "extra": "另有该版本歌词册、明信片及贴纸册。", "members": ["MOKA"], "owned": false, "source": "https://weverse.io/illit/notice/34554?hl=ko", "img": "images/mami-5.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/eb4141edb9ba", "status": "released"}, {"id": "mami-6", "name": "PAW PAW ver. · WONHEE", "kind": "成员版", "group": "member", "cd": "迷你 CD-R", "book": "44 页＋20 页手风琴迷你册", "card": "A 固定随封面成员；B 随机 5 选 1", "poster": "1 张，随版本", "extra": "另有该版本歌词册、明信片及贴纸册。", "members": ["WONHEE"], "owned": false, "source": "https://weverse.io/illit/notice/34554?hl=ko", "img": "images/mami-6.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/eb4141edb9ba", "status": "released"}, {"id": "mami-7", "name": "PAW PAW ver. · IROHA", "kind": "成员版", "group": "member", "cd": "迷你 CD-R", "book": "44 页＋20 页手风琴迷你册", "card": "A 固定随封面成员；B 随机 5 选 1", "poster": "1 张，随版本", "extra": "另有该版本歌词册、明信片及贴纸册。", "members": ["IROHA"], "owned": false, "source": "https://weverse.io/illit/notice/34554?hl=ko", "img": "images/mami-7.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/eb4141edb9ba", "status": "released"}, {"id": "mami-8", "name": "Weverse Albums ver.", "kind": "Weverse Albums", "group": "weverse", "cd": "无 · QR 音源", "book": "无", "card": "A、B 各随机 1 张（各 5 选 1）＋固定小分队卡 2 张", "poster": "无", "extra": "音源 QR 卡、曲目卡。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/56414", "img": "images/mami-8.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/eb4141edb9ba", "status": "released"}, {"id": "mami-9", "name": "Gua Sha Ceramic Objet ver. · 陶瓷摆件版", "kind": "特殊版", "group": "special", "cd": "迷你 CD-R", "book": "无", "card": "固定 5 张套卡", "poster": "无", "extra": "陶瓷摆件、束口袋、12 页歌词折页及使用说明。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/56341", "img": "images/mami-9.jpg", "imgFrom": "Weverse Shop", "imgPage": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/56341", "status": "released"}]}, {"id": "back", "title": "I Got Your Back", "date": "2026-07-29", "kind": "日本实体单曲", "note": "实体 CD 7 月 29 日发行，音源 7 月 26 日先上线。五张单人封面各有独立品番。", "versions": [{"id": "back-0", "name": "ILLIT × FRUiTS Special Edition", "kind": "联名版", "group": "collab", "cd": "CD", "book": "36 页联名小册", "card": "自拍卡随机 5 选 1", "poster": "1 张", "extra": "另有贴纸、明信片。", "members": [], "owned": false, "source": "https://www.universal-music.co.jp/illit/products/upch-7843/", "img": "images/back-0.jpg", "imgFrom": "环球音乐日本", "imgPage": "https://www.universal-music.co.jp/illit/products/upch-7843/", "status": "released"}, {"id": "back-1", "name": "初回限定盘", "kind": "初回限定盘", "group": "standard", "cd": "CD", "book": "无", "card": "自拍卡、分队自拍卡各随机 1 张（各 5 选 1）", "poster": "无", "extra": "有 12 张明信片和 1 个多功能标记物。", "members": [], "owned": false, "source": "https://www.universal-music.co.jp/illit/products/upch-7842/", "img": "images/back-1.jpg", "imgFrom": "环球音乐日本", "imgPage": "https://www.universal-music.co.jp/illit/products/upch-7842/", "status": "released"}, {"id": "back-2", "name": "通常盘", "kind": "日单通常盘", "group": "standard", "cd": "CD", "book": "12 页小册", "card": "首批自拍卡随机 5 选 1", "poster": "无", "extra": "外套盒和贴纸同为初回规格。", "members": [], "owned": false, "source": "https://www.universal-music.co.jp/illit/products/upch-7849/", "img": "images/back-2.jpg", "imgFrom": "环球音乐日本", "imgPage": "https://www.universal-music.co.jp/illit/products/upch-7849/", "status": "released"}, {"id": "back-3", "name": "单人封面盘 · YUNAH", "kind": "成员版", "group": "member", "cd": "CD", "book": "无", "card": "自拍卡随机 6 选 3", "poster": "1 张，随成员版本", "extra": "附留言证件照 1 张。品番 UPCH-7844。", "members": ["YUNAH"], "owned": false, "source": "https://www.universal-music.co.jp/illit/products/upch-7844/", "img": "images/back-3.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/7ed1ed6c9dcd", "status": "released"}, {"id": "back-4", "name": "单人封面盘 · MINJU", "kind": "成员版", "group": "member", "cd": "CD", "book": "无", "card": "自拍卡随机 6 选 3", "poster": "1 张，随成员版本", "extra": "附留言证件照 1 张。品番 UPCH-7845。", "members": ["MINJU"], "owned": false, "source": "https://www.universal-music.co.jp/illit/products/upch-7845/", "img": "images/back-4.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/7ed1ed6c9dcd", "status": "released"}, {"id": "back-5", "name": "单人封面盘 · MOKA", "kind": "成员版", "group": "member", "cd": "CD", "book": "无", "card": "自拍卡随机 6 选 3", "poster": "1 张，随成员版本", "extra": "附留言证件照 1 张。品番 UPCH-7846。", "members": ["MOKA"], "owned": false, "source": "https://www.universal-music.co.jp/illit/products/upch-7846/", "img": "images/back-5.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/7ed1ed6c9dcd", "status": "released"}, {"id": "back-6", "name": "单人封面盘 · WONHEE", "kind": "成员版", "group": "member", "cd": "CD", "book": "无", "card": "自拍卡随机 6 选 3", "poster": "1 张，随成员版本", "extra": "附留言证件照 1 张。品番 UPCH-7847。", "members": ["WONHEE"], "owned": false, "source": "https://www.universal-music.co.jp/illit/products/upch-7847/", "img": "images/back-6.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/7ed1ed6c9dcd", "status": "released"}, {"id": "back-7", "name": "单人封面盘 · IROHA", "kind": "成员版", "group": "member", "cd": "CD", "book": "无", "card": "自拍卡随机 6 选 3", "poster": "1 张，随成员版本", "extra": "附留言证件照 1 张。品番 UPCH-7848。", "members": ["IROHA"], "owned": false, "source": "https://www.universal-music.co.jp/illit/products/upch-7848/", "img": "images/back-7.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/7ed1ed6c9dcd", "status": "released"}]}, {"id": "break", "title": "BREAK EVEN", "date": "2026-10-26", "kind": "韩语迷你专辑", "note": "MOKA 因健康原因休养，本专辑以四人体制宣传，GLLIT ver. 只有 YUNAH、MINJU、WONHEE、IROHA 和 GROUP 五款，没有 MOKA 成员封面。Photo Dump ver. 有 242 页胶装写真。Little Mimi Ver. 已开放预售，12 月 30 日发行。", "versions": [{"id": "break-0", "name": "BURNING Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "88 页", "card": "A、B、C 各随机 1 张（各 4 选 1）", "poster": "1 张，随版本", "extra": "另有贴纸、书腰。海报见日本官网配置。", "members": [], "owned": false, "source": "https://weverse.io/illit/notice/39478?hl=ko", "img": "images/break-0.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/77dd047f709d", "status": "released"}, {"id": "break-1", "name": "QUIET Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "88 页", "card": "A、B、C 各随机 1 张（各 4 选 1）", "poster": "1 张，随版本", "extra": "另有贴纸、书腰。海报见日本官网配置。", "members": [], "owned": false, "source": "https://weverse.io/illit/notice/39478?hl=ko", "img": "images/break-1.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/77dd047f709d", "status": "released"}, {"id": "break-2", "name": "MAD Ver.", "kind": "普通写真版", "group": "standard", "cd": "CD-R", "book": "88 页", "card": "A、B、C 各随机 1 张（各 4 选 1）", "poster": "1 张，随版本", "extra": "另有贴纸、书腰。海报见日本官网配置。", "members": [], "owned": false, "source": "https://weverse.io/illit/notice/39478?hl=ko", "img": "images/break-2.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/77dd047f709d", "status": "released"}, {"id": "break-3", "name": "GLLIT ver. · YUNAH", "kind": "成员版", "group": "member", "cd": "迷你 CD", "book": "46 页", "card": "A 固定 1 张随成员；B 随机 4 选 1", "poster": "1 张，随版本", "extra": "折叠外盒、歌词纸、制作名单及贴纸。", "members": ["YUNAH"], "owned": false, "source": "https://weverse.io/illit/notice/39479?hl=ko", "img": "images/break-3.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/77dd047f709d", "status": "released"}, {"id": "break-4", "name": "GLLIT ver. · MINJU", "kind": "成员版", "group": "member", "cd": "迷你 CD", "book": "46 页", "card": "A 固定 1 张随成员；B 随机 4 选 1", "poster": "1 张，随版本", "extra": "折叠外盒、歌词纸、制作名单及贴纸。", "members": ["MINJU"], "owned": false, "source": "https://weverse.io/illit/notice/39479?hl=ko", "img": "images/break-4.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/77dd047f709d", "status": "released"}, {"id": "break-5", "name": "GLLIT ver. · WONHEE", "kind": "成员版", "group": "member", "cd": "迷你 CD", "book": "46 页", "card": "A 固定 1 张随成员；B 随机 4 选 1", "poster": "1 张，随版本", "extra": "折叠外盒、歌词纸、制作名单及贴纸。", "members": ["WONHEE"], "owned": false, "source": "https://weverse.io/illit/notice/39479?hl=ko", "img": "images/break-5.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/77dd047f709d", "status": "released"}, {"id": "break-6", "name": "GLLIT ver. · IROHA", "kind": "成员版", "group": "member", "cd": "迷你 CD", "book": "46 页", "card": "A 固定 1 张随成员；B 随机 4 选 1", "poster": "1 张，随版本", "extra": "折叠外盒、歌词纸、制作名单及贴纸。", "members": ["IROHA"], "owned": false, "source": "https://weverse.io/illit/notice/39479?hl=ko", "img": "images/break-6.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/77dd047f709d", "status": "released"}, {"id": "break-7", "name": "GLLIT ver. · 团体", "kind": "GLLIT 团体版", "group": "theme", "cd": "迷你 CD", "book": "46 页", "card": "A 固定 2 张套卡；B 随机 4 选 1", "poster": "1 张，随版本", "extra": "折叠外盒、歌词纸、制作名单及贴纸。", "members": [], "owned": false, "source": "https://weverse.io/illit/notice/39479?hl=ko", "img": "images/break-7.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/77dd047f709d", "status": "released"}, {"id": "break-8", "name": "Weverse Albums ver.", "kind": "Weverse Albums", "group": "weverse", "cd": "无 · QR 音源", "book": "无", "card": "A、B 各随机 1 张（各 4 选 1）＋固定小分队卡 2 张", "poster": "无", "extra": "音源 QR 卡、曲目卡。", "members": [], "owned": false, "source": "https://weverse.io/illit/notice/39481?hl=ko", "img": "images/break-8.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/77dd047f709d", "status": "released"}, {"id": "break-9", "name": "Photo Dump ver.", "kind": "特殊版", "group": "special", "cd": "迷你 CD", "book": "242 页 · 胶装", "card": "A、B、C 各随机 1 张（各 4 选 1）", "poster": "无", "extra": "另有两张贴纸和歌词折页。", "members": [], "owned": false, "source": "https://weverse.io/illit/notice/39480?hl=ko", "img": "images/break-9.jpg", "imgFrom": "ILLIT 日本官网", "imgPage": "https://illit-official.jp/news/77dd047f709d", "status": "released"}, {"id": "break-10", "name": "Little Mimi Ver. · 娃娃钥匙扣版", "kind": "联名版", "group": "collab", "cd": "迷你 CD", "book": "无", "card": "A 固定 4 张套卡；B 1 张；C 随机 4 选 1", "poster": "无", "extra": "附 Little Mimi 警察造型娃娃钥匙扣（单一款式）、挂盒、8 页歌词折页、2 张贴纸。", "members": [], "owned": false, "source": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/71786", "img": "images/break-10.jpg", "imgFrom": "Weverse Shop", "imgPage": "https://shop.weverse.io/ko/shop/KRW/artists/120/sales/71786", "status": "upcoming", "date": "2026-12-30"}]}]}</script>
+<script>
+(function(){
+'use strict';
+var DATA=JSON.parse(document.getElementById('data').textContent);
+var MEMBERS=['YUNAH','MINJU','MOKA','WONHEE','IROHA'];
+var GROUPS=[['standard','普通版'],['member','成员 / 小分队版'],['theme','GLLIT 主题 / 团体版'],['weverse','Weverse Albums'],['collab','联名版'],['special','特殊版']];
+var GROUP_NAME={};GROUPS.forEach(function(g){GROUP_NAME[g[0]]=g[1]});
+var KINDS=['韩语迷你专辑','韩语单曲专辑','日本实体单曲'];
+var KEY='illit-owned-v1';
+var overrides={};
+try{overrides=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){overrides={}}
+function saveOwned(){try{localStorage.setItem(KEY,JSON.stringify(overrides))}catch(e){}}
+function isOwned(v){return Object.prototype.hasOwnProperty.call(overrides,v.id)?!!overrides[v.id]:!!v.owned}
+
+var state={groups:{},member:'',album:'',kind:'',owned:false};
+function el(t,c,txt){var e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e}
+function no(s){return !s||/^无/.test(s)}
+function fmt(d){return d.replace(/-/g,'.')}
+
+document.getElementById('asof').textContent=fmt(DATA.asof);
+
+/* stats + overview */
+function counts(){
+  var rel=0,up=0,own=0;
+  DATA.albums.forEach(function(a){a.versions.forEach(function(v){if(v.status==='upcoming')up++;else rel++;if(isOwned(v))own++})});
+  return {rel:rel,up:up,own:own};
+}
+function renderStats(){
+  var c=counts(),box=document.getElementById('stats');box.textContent='';
+  [[DATA.albums.length,'张实体作品'],[c.rel,'个已发行版本'],[c.up,'个预售中'],[c.own,'个已拥有']].forEach(function(s){
+    var d=el('div','stat');d.appendChild(el('b',null,String(s[0])));d.appendChild(el('span',null,s[1]));box.appendChild(d)});
+}
+function renderOverview(){
+  var t=el('table'),h=el('tr');
+  ['发行日','作品','类型'].concat(GROUPS.map(function(g){return g[1]})).concat(['合计']).forEach(function(x){h.appendChild(el('th',null,x))});
+  var th=el('thead');th.appendChild(h);t.appendChild(th);var tb=el('tbody');
+  DATA.albums.forEach(function(a){
+    var r=el('tr');r.appendChild(el('td',null,fmt(a.date)));
+    var td=el('td'),l=el('a',null,a.title);l.href='#'+a.id;td.appendChild(l);r.appendChild(td);
+    r.appendChild(el('td',null,a.kind));
+    var tot=0;
+    GROUPS.forEach(function(g){var n=a.versions.filter(function(v){return v.group===g[0]&&v.status!=='upcoming'}).length;tot+=n;r.appendChild(el('td','n',n?String(n):'–'))});
+    var up=a.versions.filter(function(v){return v.status==='upcoming'}).length;
+    r.appendChild(el('td','n',tot+(up?' (+'+up+' 预售)':'')));
+    tb.appendChild(r)});
+  t.appendChild(tb);document.getElementById('overview').appendChild(t);
+}
+
+/* filters */
+function chip(label,pressed,onclick){var b=el('button','chip',label);b.type='button';b.setAttribute('aria-pressed',pressed?'true':'false');b.addEventListener('click',onclick);return b}
+function buildFilters(){
+  var g=document.getElementById('fGroup');
+  GROUPS.forEach(function(x){g.appendChild(chip(x[1],false,function(e){state.groups[x[0]]=!state.groups[x[0]];e.currentTarget.setAttribute('aria-pressed',state.groups[x[0]]?'true':'false');render()}))});
+  var m=document.getElementById('fMember');
+  [''].concat(MEMBERS).forEach(function(x){var b=chip(x||'全部',x==='',function(){state.member=x;[].forEach.call(m.children,function(c){c.setAttribute('aria-pressed',c===b?'true':'false')});render()});m.appendChild(b)});
+  var sa=document.getElementById('fAlbum');sa.appendChild(new Option('全部作品',''));
+  DATA.albums.forEach(function(a){sa.appendChild(new Option(fmt(a.date)+' '+a.title,a.id))});
+  sa.addEventListener('change',function(){state.album=sa.value;render()});
+  var sk=document.getElementById('fKind');sk.appendChild(new Option('全部作品类型',''));
+  KINDS.forEach(function(k){sk.appendChild(new Option(k,k))});
+  sk.addEventListener('change',function(){state.kind=sk.value;render()});
+  var fo=document.getElementById('fOwned');
+  fo.addEventListener('click',function(){state.owned=!state.owned;fo.setAttribute('aria-pressed',state.owned?'true':'false');render()});
+  document.getElementById('fReset').addEventListener('click',function(){
+    state={groups:{},member:'',album:'',kind:'',owned:false};
+    [].forEach.call(g.children,function(c){if(c.id!=='ftoggle')c.setAttribute('aria-pressed','false')});
+    [].forEach.call(m.children,function(c,i){c.setAttribute('aria-pressed',i===0?'true':'false')});
+    sa.value='';sk.value='';fo.setAttribute('aria-pressed','false');render()});
+  var ft=document.getElementById('ftoggle'),fs=document.getElementById('filters');
+  g.parentNode.appendChild(ft);
+  ft.addEventListener('click',function(){var o=fs.classList.toggle('open');ft.setAttribute('aria-expanded',o?'true':'false');ft.textContent=o?'收起筛选':'更多筛选'});
+}
+function match(a,v){
+  var anyG=Object.keys(state.groups).some(function(k){return state.groups[k]});
+  if(anyG&&!state.groups[v.group])return false;
+  if(state.member&&v.members.indexOf(state.member)<0)return false;
+  if(state.album&&a.id!==state.album)return false;
+  if(state.kind&&a.kind!==state.kind)return false;
+  if(state.owned&&!isOwned(v))return false;
+  return true;
+}
+
+/* cards */
+function card(a,v){
+  var c=el('article','card');c.id='v-'+v.id;if(isOwned(v))c.classList.add('is-owned');
+  var art=el('div','art'),img=new Image();
+  img.loading='lazy';img.decoding='async';img.alt=a.title+' '+v.name+' 官方商品图';img.src=v.img;
+  var ph=el('div','ph','本地图片缺失或未能加载。请点下方「图片来源」联网查看官方图。');
+  img.addEventListener('error',function(){art.classList.add('err')});
+  art.appendChild(img);art.appendChild(ph);
+  if(isOwned(v))art.appendChild(el('span','ownedTag','已拥有'));
+  if(v.status==='upcoming')art.appendChild(el('span','soonTag','预售中 · '+fmt(v.date)+' 发行'));
+  c.appendChild(art);
+  var b=el('div','body'),tags=el('div','tags');
+  tags.appendChild(el('span','tag g-'+v.group,v.kind));
+  v.members.forEach(function(m){tags.appendChild(el('span','tag mem',m))});
+  if(/随机/.test(v.card+v.extra+v.book))tags.appendChild(el('span','tag rand','含随机内容'));
+  b.appendChild(tags);
+  b.appendChild(el('h3',null,v.name));
+  var has=el('div','has');
+  var cdLabel=no(v.cd)?(/QR/.test(v.cd)?'无 CD · QR 音源':'无 CD'):(/迷你/.test(v.cd)?'迷你 CD':'CD');
+  [[!no(v.cd),cdLabel],[!no(v.book),no(v.book)?'无写真册':'写真册'],[!no(v.card),no(v.card)?'无小卡':'小卡'],[!no(v.poster),no(v.poster)?'无海报':'海报']].forEach(function(x){
+    has.appendChild(el('span',x[0]?'y':'n',x[1]))});
+  b.appendChild(has);
+  var dl=el('dl');
+  [['CD',v.cd],['写真册',v.book],['小卡',v.card],['海报',v.poster]].forEach(function(r){dl.appendChild(el('dt',null,r[0]));dl.appendChild(el('dd',null,r[1]))});
+  b.appendChild(dl);
+  if(v.extra)b.appendChild(el('p','extra',v.extra));
+  var f=el('div','foot');
+  var s1=el('a',null,'官方资料');s1.href=v.source;s1.target='_blank';s1.rel='noopener';f.appendChild(s1);
+  var s2=el('a',null,'图片来源：'+v.imgFrom);s2.href=v.imgPage;s2.target='_blank';s2.rel='noopener';f.appendChild(s2);
+  var lab=el('label'),cb=el('input');cb.type='checkbox';cb.checked=isOwned(v);
+  cb.addEventListener('change',function(){overrides[v.id]=cb.checked;saveOwned();render();renderStats()});
+  lab.appendChild(cb);lab.appendChild(document.createTextNode('已拥有'));f.appendChild(lab);
+  b.appendChild(f);c.appendChild(b);return c;
+}
+function render(){
+  var main=document.getElementById('main');main.textContent='';var n=0,albums=0;
+  DATA.albums.forEach(function(a){
+    var vs=a.versions.filter(function(v){return match(a,v)});if(!vs.length)return;albums++;n+=vs.length;
+    var s=el('section','release');s.id=a.id;
+    var h=el('div','rhead'),t=el('time',null,fmt(a.date));t.dateTime=a.date;h.appendChild(t);
+    h.appendChild(el('h2',null,a.title));h.appendChild(el('span','rkind',a.kind));
+    var total=a.versions.filter(function(v){return v.status!=='upcoming'}).length;
+    h.appendChild(el('span','muted',total+' 个已发行版本'));
+    s.appendChild(h);if(a.note)s.appendChild(el('p','rnote',a.note));
+    var g=el('div','grid');vs.forEach(function(v){g.appendChild(card(a,v))});s.appendChild(g);main.appendChild(s)});
+  document.getElementById('status').textContent='显示 '+albums+' 张作品 · '+n+' 个版本';
+  document.getElementById('empty').style.display=n?'none':'block';
+}
+buildFilters();renderStats();renderOverview();render();
+})();
+</script>
+</body>
+</html>
