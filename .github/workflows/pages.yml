@@ -39,7 +39,7 @@ jobs:
       - name: Assemble site
         run: |
           mkdir -p _site/album-catalog _site/study-guide
-          cp site/index.html _site/index.html
+          cp -R site/. _site/
           cp "album-catalog/dist/ILLIT-实体唱片收藏图鉴.html" _site/album-catalog/index.html
           cp -R album-catalog/dist/images _site/album-catalog/images
           cp study-guide/dist/index.html _site/study-guide/index.html

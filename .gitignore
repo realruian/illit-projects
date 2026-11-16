@@ -4,3 +4,6 @@ node_modules/
 
 # 专辑图鉴的官方原图（约 129 MB），只用于重新裁图，留在本机
 album-catalog/raw/
+
+# 本地预览 GitHub Pages 时组装出的站点
+_site/
