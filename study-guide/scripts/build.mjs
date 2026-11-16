@@ -60,11 +60,12 @@ if (/<script type="module"/.test(html))
   throw new Error("Offline build must not use module fetch");
 await mkdir(path.join(root, "dist"), { recursive: true });
 await writeFile(path.join(root, "dist", "index.html"), html);
-const download = process.env.ILLIT_DOWNLOAD_DIR
-  ? path.resolve(process.env.ILLIT_DOWNLOAD_DIR)
-  : path.join(root, "downloads");
-await mkdir(download, { recursive: true });
-await writeFile(path.join(download, "ILLIT-互动视觉原型.html"), html);
+// 只在设置了 ILLIT_DOWNLOAD_DIR 时额外复制一份，平时只生成 dist/index.html。
+if (process.env.ILLIT_DOWNLOAD_DIR) {
+  const download = path.resolve(process.env.ILLIT_DOWNLOAD_DIR);
+  await mkdir(download, { recursive: true });
+  await writeFile(path.join(download, "ILLIT-互动视觉原型.html"), html);
+}
 console.log(
   `Built standalone HTML: ${Buffer.byteLength(html)} bytes. All images and font embedded; no server required.`,
 );
