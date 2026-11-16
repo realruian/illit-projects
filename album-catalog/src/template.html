@@ -233,7 +233,7 @@ section.notes code{font-size:.95em}
 <header class="top"><div class="wrap hero">
   <h1>ILLIT 实体专辑<br>与<span class="rose">版本图鉴</span></h1>
   <div>
-    <p class="lead">按发行时间收录 ILLIT 的韩语迷你专辑、韩语单曲专辑和日本实体单曲，列出每张作品的全部版本和内含物。</p>
+    <p class="lead">按发行时间收录 ILLIT 的韩语迷你专辑、韩语单曲专辑和日本实体单曲，列出每张作品的各个版本和内含物。</p>
     <p class="asof">资料截至 <span id="asof" class="num"></span></p>
   </div>
 </div>
@@ -268,7 +268,7 @@ section.notes code{font-size:.95em}
 <p class="empty wrap" id="empty">没有符合条件的版本，换个筛选条件试试。</p>
 
 <section class="notes" id="notes"><div class="wrap notes-in">
-  <h2>统计口径<br>与说明</h2>
+  <h2>收录说明</h2>
   <div>
   <h3>收录范围</h3>
   <ul>
@@ -287,7 +287,7 @@ section.notes code{font-size:.95em}
   <h3>图片</h3>
   <ul>
     <li>图片来自 ILLIT 日本官网、Weverse Shop、环球音乐日本和 BELIFT LAB 的公开商品图或概念图，每张卡片都注明来源页。版权归 BELIFT LAB、HYBE 及相关权利人。</li>
-    <li>同一文件夹里的 <code>images/</code> 是按版本裁出的缩略图，只供个人离线查阅，请勿转发或再发布。删掉这个文件夹后，卡片会显示占位说明，可点来源链接联网查看。</li>
+    <li>缩略图是按版本从官方图裁出来的，仅供个人查阅。</li>
   </ul>
   </div>
 </div></section>
@@ -328,13 +328,13 @@ function counts(){
 function renderStats(){
   var c=counts(),box=document.getElementById('counter');box.textContent='';
   box.appendChild(el('b','num',String(c.rel)));box.appendChild(el('span',null,'个已发行版本'));
-  box.appendChild(el('small','num',DATA.albums.length+' 张作品 · '+c.up+' 个预售 · '+c.own+' 个已拥有'));
+  box.appendChild(el('small','num',DATA.albums.length+' 张作品 · 预售 '+c.up+' 个 · 已拥有 '+c.own+' 个'));
 }
 function cover(a){return a.versions[0].img}
 function renderCovers(){
   var ul=document.getElementById('covers');
   var y=DATA.albums.map(function(a){return a.date.slice(0,4)});
-  document.getElementById('span').textContent=DATA.albums.length+' RELEASES · '+y[0]+'–'+y[y.length-1];
+  document.getElementById('span').textContent=y[0]+'–'+y[y.length-1];
   DATA.albums.forEach(function(a,i){
     var li=el('li'),l=el('a'),p=el('div','pic'),im=el('img');l.href='#'+a.id;
     im.src=cover(a);im.alt=a.title+' 封面';im.decoding='async';p.appendChild(im);l.appendChild(p);
@@ -394,7 +394,7 @@ function card(a,v){
   var c=el('article','card');c.id='v-'+v.id;if(isOwned(v))c.classList.add('is-owned');
   var art=el('div','art'),img=new Image();
   img.loading='lazy';img.decoding='async';img.alt=a.title+' '+v.name+' 官方商品图';img.src=v.img;
-  var ph=el('div','ph','本地图片缺失或未能加载。请点下方「图片来源」联网查看官方图。');
+  var ph=el('div','ph','图片未能加载，可点下方「图片来源」查看官方图。');
   img.addEventListener('error',function(){art.classList.add('err')});
   art.appendChild(img);art.appendChild(ph);
   if(isOwned(v))art.appendChild(el('span','flag owned','已拥有'));
